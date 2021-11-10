@@ -1,25 +1,25 @@
-const path = require('path')
+const path = require("path");
 const router = require("express").Router();
-const Workout = require("../models/Workout.js");
+const Workout = require("../models");
 
 router.get("/exercise", (req, res) => {
-    res.sendFile(path.join(__dirname, '../public/exercise.html'))
-})
+  res.sendFile(path.join(__dirname, "../public/exercise.html"));
+});
 
 router.get("/stats", (req, res) => {
-    res.sendFile(path.join(__dirname, '../public/stats.html'))
-})
+  res.sendFile(path.join(__dirname, "../public/stats.html"));
+});
 
-router.get("/api/workouts/range", ({body}, res) => {
+router.get("/api/workouts/range", ({ body }, res) => {
   Workout.aggregate([
     {
-        $addFields: {
-          totalDuration: {
-              $sum: "$exercises.duration"
-          }
-        }
-    }
-    ])
+      $addFields: {
+        totalDuration: {
+          $sum: "$exercises.duration",
+        },
+      },
+    },
+  ])
     .sort({ day: -1 })
     .limit(7)
     .then((dbWorkout) => {
@@ -32,13 +32,13 @@ router.get("/api/workouts/range", ({body}, res) => {
 
 router.get("/api/workouts", (req, res) => {
   Workout.aggregate([
-      {
-          $addFields: {
-            totalDuration: {
-                $sum: "$exercises.duration"
-            }
-          }
-      }
+    {
+      $addFields: {
+        totalDuration: {
+          $sum: "$exercises.duration",
+        },
+      },
+    },
   ])
     .then((dbWorkout) => {
       res.json(dbWorkout);
@@ -61,12 +61,12 @@ router.post("/api/workouts", ({ body }, res) => {
 router.put("/api/workouts/:id", (req, res) => {
   Workout.updateOne(
     {
-      _id: req.params.id
+      _id: req.params.id,
     },
     {
       $push: {
         exercises: req.body,
-      }
+      },
     }
   )
     .then((dbWorkout) => {
