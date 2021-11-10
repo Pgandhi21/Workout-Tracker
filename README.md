@@ -15,8 +15,6 @@ As a user, I want to be able to view create and track daily workouts. I want to 
 - [Installation](#installation)
 - [Usage](#usage)
 - [License](#license)
-- [Contributors](#contributors)
-- [Tests](#tests)
 - [Questions](#questions)
 
 ## Installation
